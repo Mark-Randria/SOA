@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - '3000:3000'
+    env_file:
+      - path: .env.production
+        required: true
+    depends_on:
+      dbuser:
+        condition: service_healthy
+      dbinsurance:
+        condition: service_healthy
+      dbnotification:
+        condition: service_healthy
+
+  dbuser:
+    image: postgres:15
+    container_name: postgres_dbuser
+    restart: always
+    env_file:
+      - path: .env.production
+    environment:
+      POSTGRES_USER: ${DB_USERNAME_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD_USER}
+      POSTGRES_DB: ${DB_NAME_USER}
+    ports:
+      - '5433:5432'
+    volumes:
+      - dbuser_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+
+  dbinsurance:
+    image: postgres:15
+    container_name: postgres_dbinsurance
+    restart: always
+    env_file:
+      - path: .env.production
+    environment:
+      POSTGRES_USER: ${DB_USERNAME_INSURANCE}
+      POSTGRES_PASSWORD: ${DB_PASSWORD_INSURANCE}
+      POSTGRES_DB: ${DB_NAME_INSURANCE}
+    ports:
+      - '5434:5432'
+    volumes:
+      - dbinsurance_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+
+  dbnotification:
+    image: postgres:15
+    container_name: postgres_dbnotification
+    restart: always
+    env_file:
+      - path: .env.production
+    environment:
+      POSTGRES_USER: ${DB_USERNAME_NOTIFICATION}
+      POSTGRES_PASSWORD: ${DB_PASSWORD_NOTIFICATION}
+      POSTGRES_DB: ${DB_NAME_NOTIFICATION}
+    ports:
+      - '5435:5432'
+    volumes:
+      - dbnotification_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+volumes:
+  dbuser_data:
+  dbinsurance_data:
+  dbnotification_data:
+  rabbitmq_data:

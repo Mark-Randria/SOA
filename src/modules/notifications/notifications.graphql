@@ -1,0 +1,26 @@
+type Query {
+  allNotifications: [Notification]
+  findOneNotification(id: ID!): Notification!
+  findNotifications(idReceiver: ID, idSender: ID): [Notification]
+}
+
+type Mutation {
+  createNotification(notification: NotificationInput!): Notification
+}
+
+type Notification {
+  idNotif: ID!
+  idReceiver: ID!
+  idSender: ID!
+  notifTitle: String!
+  message: String!
+  sendDate: String!
+}
+
+input NotificationInput {
+  idReceiver: ID!
+  idSender: ID!
+  notifTitle: String!
+  message: String!
+  sendDate: String!
+}

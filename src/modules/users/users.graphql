@@ -1,0 +1,36 @@
+type Query {
+  allUsers: [User]
+  allHRAdvisors: [HRAdvisor]
+  allEmployees: [Employee]
+}
+
+interface User {
+  immatriculation: ID!
+  email: String
+  firstname: String
+  lastname: String
+  phone: String
+  role: String
+}
+
+type HRAdvisor implements User {
+  immatriculation: ID!
+  email: String
+  firstname: String
+  lastname: String
+  phone: String
+  role: String
+  department: String
+}
+
+type Employee implements User {
+  immatriculation: ID!
+  email: String
+  firstname: String
+  lastname: String
+  phone: String
+  role: String
+  jobTitle: String
+  jobDescription: String
+  contractType: String
+}
