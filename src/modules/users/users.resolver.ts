@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { IUser } from './interfaces/user.interface';
 import { UsersService } from './users.service';
 import { IHRAdvisor } from './interfaces/hr-advisor.interface';
@@ -26,5 +26,10 @@ export class UsersResolver {
   @Query()
   async allEmployees(): Promise<IEmployee[]> {
     return this.employeeService.findAllEmployee();
+  }
+
+  @Mutation()
+  async testMutation(@Args('message') message: string): Promise<string> {
+    return this.usersService.testMutation(message);
   }
 }

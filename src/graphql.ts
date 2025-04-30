@@ -36,6 +36,7 @@ export interface IQuery {
 
 export interface IMutation {
     createNotification(notification: NotificationInput): Nullable<Notification> | Promise<Nullable<Notification>>;
+    testMutation(message: string): Nullable<string> | Promise<Nullable<string>>;
 }
 
 export interface Notification {

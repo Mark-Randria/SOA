@@ -4,6 +4,10 @@ type Query {
   allEmployees: [Employee]
 }
 
+type Mutation {
+  testMutation(message: String!): String
+}
+
 interface User {
   immatriculation: ID!
   email: String

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   app:
     build: .
@@ -82,6 +80,9 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    env_file:
+      - path: .env.production
+        required: true
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
