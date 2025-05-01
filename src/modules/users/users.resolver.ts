@@ -5,7 +5,6 @@ import { IHRAdvisor } from './interfaces/hr-advisor.interface';
 import { HRAdvisorService } from './hr-advisor.service';
 import { IEmployee } from './interfaces/employee.interface';
 import { EmployeeService } from './employee.service';
-import { CreateUserDTO } from './dto/create-user.dto';
 import { CreateHRAdvisorDTO } from './dto/create-hr-advisor.dto';
 import { UpdateHRAdvisorDTO } from './dto/update-hr-advisor.dto';
 import { UpdateEmployeeDTO } from './dto/update-employee.dto';
@@ -18,7 +17,7 @@ export class UsersResolver {
     private hrService: HRAdvisorService,
     private employeeService: EmployeeService,
   ) {}
-  @Query()
+  @Query(() => [IUser])
   async allUsers(): Promise<IUser[]> {
     return this.usersService.findAll();
   }
@@ -39,11 +38,6 @@ export class UsersResolver {
   }
 
   @Mutation()
-  async createUser(@Args('user') user: CreateUserDTO): Promise<IUser> {
-    return this.usersService.createUser(user);
-  }
-
-  @Mutation()
   async createHRAdvisor(
     @Args('hr') hr: CreateHRAdvisorDTO,
   ): Promise<IHRAdvisor> {
@@ -55,14 +49,6 @@ export class UsersResolver {
     @Args('employee') employee: CreateEmployeeDTO,
   ): Promise<IEmployee> {
     return this.employeeService.createEmployee(employee);
-  }
-
-  @Mutation()
-  async updateUser(
-    @Args('immatriculation') immatriculation: number,
-    @Args('user') user: CreateUserDTO,
-  ): Promise<IUser> {
-    return this.usersService.updateUser(+immatriculation, user);
   }
 
   @Mutation()

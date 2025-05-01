@@ -5,7 +5,7 @@ export const userResolvers = {
     __resolveType(user: IUser) {
       if ('department' in user) return 'HRAdvisor';
       if ('jobTitle' in user) return 'Employee';
-      return null;
+      return null; // or a default type
     },
   },
 };

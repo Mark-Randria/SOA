@@ -16,14 +16,6 @@ export interface NotificationInput {
     sendDate: string;
 }
 
-export interface CreateUserInput {
-    email: string;
-    firstname: string;
-    lastname: string;
-    phone: string;
-    role: string;
-}
-
 export interface CreateHRAdvisorInput {
     email: string;
     firstname: string;
@@ -42,14 +34,6 @@ export interface CreateEmployeeInput {
     jobTitle: string;
     jobDescription: string;
     contractType: string;
-}
-
-export interface UpdateUserInput {
-    email?: Nullable<string>;
-    firstname?: Nullable<string>;
-    lastname?: Nullable<string>;
-    phone?: Nullable<string>;
-    role?: Nullable<string>;
 }
 
 export interface UpdateHRAdvisorInput {
@@ -98,10 +82,8 @@ export interface IQuery {
 export interface IMutation {
     createNotification(notification: NotificationInput): Nullable<Notification> | Promise<Nullable<Notification>>;
     testMutation(message: string): Nullable<string> | Promise<Nullable<string>>;
-    createUser(user: CreateUserInput): Nullable<User> | Promise<Nullable<User>>;
     createHRAdvisor(hr: CreateHRAdvisorInput): Nullable<HRAdvisor> | Promise<Nullable<HRAdvisor>>;
     createEmployee(employee: CreateEmployeeInput): Nullable<Employee> | Promise<Nullable<Employee>>;
-    updateUser(immatriculation: string, user?: Nullable<UpdateUserInput>): Nullable<User> | Promise<Nullable<User>>;
     updateHRAdvisor(immatriculation: string, hr?: Nullable<UpdateHRAdvisorInput>): Nullable<HRAdvisor> | Promise<Nullable<HRAdvisor>>;
     updateEmployee(immatriculation: string, employee?: Nullable<UpdateEmployeeInput>): Nullable<Employee> | Promise<Nullable<Employee>>;
     deleteUser(immatriculation: string): Nullable<DeletedUserResponse> | Promise<Nullable<DeletedUserResponse>>;

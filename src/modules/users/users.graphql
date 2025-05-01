@@ -7,11 +7,9 @@ type Query {
 type Mutation {
   testMutation(message: String!): String
 
-  createUser(user: CreateUserInput!): User
   createHRAdvisor(hr: CreateHRAdvisorInput!): HRAdvisor
   createEmployee(employee: CreateEmployeeInput!): Employee
 
-  updateUser(immatriculation: ID!, user: UpdateUserInput): User
   updateHRAdvisor(
     immatriculation: ID!
     hr: UpdateHRAdvisorInput
@@ -57,14 +55,6 @@ type Employee implements User {
   contractType: String
 }
 
-input CreateUserInput {
-  email: String!
-  firstname: String!
-  lastname: String!
-  phone: String!
-  role: String!
-}
-
 input CreateHRAdvisorInput {
   email: String!
   firstname: String!
@@ -85,13 +75,7 @@ input CreateEmployeeInput {
   contractType: String!
 }
 
-input UpdateUserInput {
-  email: String
-  firstname: String
-  lastname: String
-  phone: String
-  role: String
-}
+
 
 input UpdateHRAdvisorInput {
   email: String

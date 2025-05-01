@@ -1,6 +1,8 @@
+import { ObjectType, Field } from '@nestjs/graphql';
 import { IUser } from './user.interface';
 
-export interface IHRAdvisor extends IUser {
+@ObjectType({ implements: IUser })
+export class IHRAdvisor extends IUser {
+  @Field()
   department: string;
-  __typename?: 'HRAdvisor';
 }

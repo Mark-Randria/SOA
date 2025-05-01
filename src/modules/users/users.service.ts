@@ -17,7 +17,7 @@ export class UsersService {
   }
 
   async findAll(): Promise<IUser[]> {
-    return this.userRepository.find();
+    return await this.userRepository.find();
   }
 
   async testMutation(message: string): Promise<any> {
@@ -27,8 +27,20 @@ export class UsersService {
   }
 
   async createUser(user: CreateUserDTO): Promise<IUser> {
-    const newUser = this.userRepository.create(user);
-    return await this.userRepository.save(newUser);
+    try {
+      const newUser = this.userRepository.create(user);
+      const savedUser = await this.userRepository.save(newUser);
+
+      this.rabbitClient.emit('user_created', savedUser);
+
+      return savedUser;
+    } catch (error) {
+      this.rabbitClient.emit(
+        'user_error',
+        `Error creating user: ${error.message}`,
+      );
+      throw error;
+    }
   }
 
   async updateUser(id: number, user: UpdateUserDTO): Promise<IUser> {
