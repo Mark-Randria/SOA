@@ -1,0 +1,33 @@
+type Query{
+    allInsurances: [Insurance]
+    findOneInsurance(id: ID!): Insurance!
+}
+type Mutation{
+    createInsurance(insurance: CreateInsuranceInput!): Insurance
+    updateInsurance(idInsurance: ID!, insurance: UpdateInsuranceInput): Insurance
+    deleteInsurance(idInsurance: ID!): DeletedInsuranceResponse!
+}
+
+type Insurance {
+    idInsurance: ID!
+    idEmployee: ID!
+    idHRADvisor: ID!
+    insurance_end_date: String!
+    insuranceDescription: String!
+    beneficiary: String!
+}
+input CreateInsuranceInput {
+    idEmployee: ID!
+    idHRADvisor: ID!
+    insurance_end_date: String!
+    insuranceDescription: String!
+    beneficiary: String!
+}
+input UpdateInsuranceInput {
+    insuranceDescription: String
+    beneficiary: String
+}
+type DeletedInsuranceResponse {
+  success: Boolean!
+  message: String
+}

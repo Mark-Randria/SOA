@@ -19,7 +19,7 @@ type Mutation {
   deleteUser(immatriculation: ID!): deletedUserResponse
 }
 
-interface deletedUserResponse {
+type deletedUserResponse {
   success: Boolean!
   message: String
 }
