@@ -5,6 +5,11 @@ import { IHRAdvisor } from './interfaces/hr-advisor.interface';
 import { HRAdvisorService } from './hr-advisor.service';
 import { IEmployee } from './interfaces/employee.interface';
 import { EmployeeService } from './employee.service';
+import { CreateUserDTO } from './dto/create-user.dto';
+import { CreateHRAdvisorDTO } from './dto/create-hr-advisor.dto';
+import { UpdateHRAdvisorDTO } from './dto/update-hr-advisor.dto';
+import { UpdateEmployeeDTO } from './dto/update-employee.dto';
+import { CreateEmployeeDTO } from './dto/create-employee.dto';
 
 @Resolver('User')
 export class UsersResolver {
@@ -31,5 +36,55 @@ export class UsersResolver {
   @Mutation()
   async testMutation(@Args('message') message: string): Promise<string> {
     return this.usersService.testMutation(message);
+  }
+
+  @Mutation()
+  async createUser(@Args('user') user: CreateUserDTO): Promise<IUser> {
+    return this.usersService.createUser(user);
+  }
+
+  @Mutation()
+  async createHRAdvisor(
+    @Args('hr') hr: CreateHRAdvisorDTO,
+  ): Promise<IHRAdvisor> {
+    return this.hrService.createHRAdvisor(hr);
+  }
+
+  @Mutation()
+  async createEmployee(
+    @Args('employee') employee: CreateEmployeeDTO,
+  ): Promise<IEmployee> {
+    return this.employeeService.createEmployee(employee);
+  }
+
+  @Mutation()
+  async updateUser(
+    @Args('immatriculation') immatriculation: number,
+    @Args('user') user: CreateUserDTO,
+  ): Promise<IUser> {
+    return this.usersService.updateUser(+immatriculation, user);
+  }
+
+  @Mutation()
+  async updateHRAdvisor(
+    @Args('immatriculation') immatriculation: number,
+    @Args('hr') hr: UpdateHRAdvisorDTO,
+  ): Promise<IHRAdvisor> {
+    return this.hrService.updateHRAdvisor(+immatriculation, hr);
+  }
+
+  @Mutation()
+  async updateEmployee(
+    @Args('immatriculation') immatriculation: number,
+    @Args('employee') employee: UpdateEmployeeDTO,
+  ): Promise<IEmployee> {
+    return this.employeeService.updateEmployee(+immatriculation, employee);
+  }
+
+  @Mutation()
+  async deleteUser(
+    @Args('immatriculation') immatriculation: number,
+  ): Promise<{ success: boolean; message: string }> {
+    return this.usersService.deleteUser(+immatriculation);
   }
 }

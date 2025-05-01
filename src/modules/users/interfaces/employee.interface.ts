@@ -4,4 +4,5 @@ export interface IEmployee extends IUser {
   jobTitle: string;
   jobDescription: string;
   contractType: string;
+  __typename?: 'Employee';
 }

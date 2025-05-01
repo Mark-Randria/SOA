@@ -6,3 +6,8 @@ export interface IUser {
   phone: string;
   role: string;
 }
+
+export interface IDeletedUserResponse {
+  success: boolean;
+  message: string;
+}

@@ -4,6 +4,8 @@ import { DataSource, Repository } from 'typeorm';
 import { HRAdvisorEntity } from './hr-advisor.entity';
 import { IHRAdvisor } from './interfaces/hr-advisor.interface';
 import { ClientProxy } from '@nestjs/microservices';
+import { CreateHRAdvisorDTO } from './dto/create-hr-advisor.dto';
+import { UpdateHRAdvisorDTO } from './dto/update-hr-advisor.dto';
 
 @Injectable()
 export class HRAdvisorService extends UsersService {
@@ -18,6 +20,32 @@ export class HRAdvisorService extends UsersService {
   }
 
   async findAllHRAdvisors(): Promise<IHRAdvisor[]> {
-    return this.hrRepository.find();
+    const hrs = await this.hrRepository.find();
+    return hrs.map((hr) => ({
+      ...hr,
+      __typename: 'HRAdvisor',
+    }));
+  }
+
+  async createHRAdvisor(hr: CreateHRAdvisorDTO): Promise<IHRAdvisor> {
+    const newHR = this.hrRepository.create(hr);
+    return await this.hrRepository.save(newHR);
+  }
+  async updateHRAdvisor(
+    id: number,
+    hr: UpdateHRAdvisorDTO,
+  ): Promise<IHRAdvisor> {
+    const hrToUpdate = await this.hrRepository.findOne({
+      where: { immatriculation: id },
+    });
+
+    if (!hrToUpdate) {
+      throw new Error('HR Advisor not found');
+    }
+
+    await this.hrRepository.update(id, hr);
+    return await this.hrRepository.findOne({
+      where: { immatriculation: id },
+    });
   }
 }

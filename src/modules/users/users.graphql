@@ -6,6 +6,24 @@ type Query {
 
 type Mutation {
   testMutation(message: String!): String
+
+  createUser(user: CreateUserInput!): User
+  createHRAdvisor(hr: CreateHRAdvisorInput!): HRAdvisor
+  createEmployee(employee: CreateEmployeeInput!): Employee
+
+  updateUser(immatriculation: ID!, user: UpdateUserInput): User
+  updateHRAdvisor(
+    immatriculation: ID!
+    hr: UpdateHRAdvisorInput
+  ): HRAdvisor
+  updateEmployee(immatriculation: ID!, employee: UpdateEmployeeInput): Employee
+
+  deleteUser(immatriculation: ID!): deletedUserResponse
+}
+
+interface deletedUserResponse {
+  success: Boolean!
+  message: String
 }
 
 interface User {
@@ -29,6 +47,62 @@ type HRAdvisor implements User {
 
 type Employee implements User {
   immatriculation: ID!
+  email: String
+  firstname: String
+  lastname: String
+  phone: String
+  role: String
+  jobTitle: String
+  jobDescription: String
+  contractType: String
+}
+
+input CreateUserInput {
+  email: String!
+  firstname: String!
+  lastname: String!
+  phone: String!
+  role: String!
+}
+
+input CreateHRAdvisorInput {
+  email: String!
+  firstname: String!
+  lastname: String!
+  phone: String!
+  role: String!
+  department: String!
+}
+
+input CreateEmployeeInput {
+  email: String!
+  firstname: String!
+  lastname: String!
+  phone: String!
+  role: String!
+  jobTitle: String!
+  jobDescription: String!
+  contractType: String!
+}
+
+input UpdateUserInput {
+  email: String
+  firstname: String
+  lastname: String
+  phone: String
+  role: String
+}
+
+input UpdateHRAdvisorInput {
+  email: String
+  firstname: String
+  lastname: String
+  phone: String
+  role: String
+  department: String
+}
+
+input UpdateEmployeeInput {
   email: String
   firstname: String
   lastname: String

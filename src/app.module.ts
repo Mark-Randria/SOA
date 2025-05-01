@@ -8,6 +8,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { userResolvers } from './modules/users/users.resolver.types';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
       },
+      resolvers: [userResolvers],
     }),
     UsersModule,
     InsurancesModule,

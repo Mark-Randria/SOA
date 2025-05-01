@@ -16,6 +16,67 @@ export interface NotificationInput {
     sendDate: string;
 }
 
+export interface CreateUserInput {
+    email: string;
+    firstname: string;
+    lastname: string;
+    phone: string;
+    role: string;
+}
+
+export interface CreateHRAdvisorInput {
+    email: string;
+    firstname: string;
+    lastname: string;
+    phone: string;
+    role: string;
+    department: string;
+}
+
+export interface CreateEmployeeInput {
+    email: string;
+    firstname: string;
+    lastname: string;
+    phone: string;
+    role: string;
+    jobTitle: string;
+    jobDescription: string;
+    contractType: string;
+}
+
+export interface UpdateUserInput {
+    email?: Nullable<string>;
+    firstname?: Nullable<string>;
+    lastname?: Nullable<string>;
+    phone?: Nullable<string>;
+    role?: Nullable<string>;
+}
+
+export interface UpdateHRAdvisorInput {
+    email?: Nullable<string>;
+    firstname?: Nullable<string>;
+    lastname?: Nullable<string>;
+    phone?: Nullable<string>;
+    role?: Nullable<string>;
+    department?: Nullable<string>;
+}
+
+export interface UpdateEmployeeInput {
+    email?: Nullable<string>;
+    firstname?: Nullable<string>;
+    lastname?: Nullable<string>;
+    phone?: Nullable<string>;
+    role?: Nullable<string>;
+    jobTitle?: Nullable<string>;
+    jobDescription?: Nullable<string>;
+    contractType?: Nullable<string>;
+}
+
+export interface DeletedUserResponse {
+    success: boolean;
+    message?: Nullable<string>;
+}
+
 export interface User {
     immatriculation: string;
     email?: Nullable<string>;
@@ -37,6 +98,13 @@ export interface IQuery {
 export interface IMutation {
     createNotification(notification: NotificationInput): Nullable<Notification> | Promise<Nullable<Notification>>;
     testMutation(message: string): Nullable<string> | Promise<Nullable<string>>;
+    createUser(user: CreateUserInput): Nullable<User> | Promise<Nullable<User>>;
+    createHRAdvisor(hr: CreateHRAdvisorInput): Nullable<HRAdvisor> | Promise<Nullable<HRAdvisor>>;
+    createEmployee(employee: CreateEmployeeInput): Nullable<Employee> | Promise<Nullable<Employee>>;
+    updateUser(immatriculation: string, user?: Nullable<UpdateUserInput>): Nullable<User> | Promise<Nullable<User>>;
+    updateHRAdvisor(immatriculation: string, hr?: Nullable<UpdateHRAdvisorInput>): Nullable<HRAdvisor> | Promise<Nullable<HRAdvisor>>;
+    updateEmployee(immatriculation: string, employee?: Nullable<UpdateEmployeeInput>): Nullable<Employee> | Promise<Nullable<Employee>>;
+    deleteUser(immatriculation: string): Nullable<DeletedUserResponse> | Promise<Nullable<DeletedUserResponse>>;
 }
 
 export interface Notification {
