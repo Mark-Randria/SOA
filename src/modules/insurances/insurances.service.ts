@@ -13,6 +13,7 @@ export class InsurancesService {
 
   async findAll(): Promise<InsuranceEntity[]> {
     return await this.insuranceRepository.find();
+    console.log('findAll');
   }
   async findOne(idInsurance: number): Promise<InsuranceEntity> {
     return await this.insuranceRepository.findOne({

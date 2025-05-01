@@ -25,7 +25,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD_USER}
       POSTGRES_DB: ${DB_NAME_USER}
     ports:
-      - '5433:5432'
+      - '5602:5432'
     volumes:
       - dbuser_data:/var/lib/postgresql/data
     healthcheck:
@@ -45,7 +45,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD_INSURANCE}
       POSTGRES_DB: ${DB_NAME_INSURANCE}
     ports:
-      - '5434:5432'
+      - '5600:5432'
     volumes:
       - dbinsurance_data:/var/lib/postgresql/data
     healthcheck:
@@ -65,7 +65,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD_NOTIFICATION}
       POSTGRES_DB: ${DB_NAME_NOTIFICATION}
     ports:
-      - '5435:5432'
+      - '5601:5432'
     volumes:
       - dbnotification_data:/var/lib/postgresql/data
     healthcheck:
