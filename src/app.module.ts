@@ -9,7 +9,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { userResolvers } from './modules/users/users.resolver.types';
-
+import { DateScalar } from './scalar/date-scalar';
+import { InsuranceListeners } from './modules/insurances/insurances.listeners';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -29,6 +30,6 @@ import { userResolvers } from './modules/users/users.resolver.types';
     NotificationsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DateScalar],
 })
 export class AppModule {}

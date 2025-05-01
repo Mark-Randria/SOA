@@ -1,6 +1,8 @@
+scalar Date
+
 type Query{
     allInsurances: [Insurance]
-    findOneInsurance(id: ID!): Insurance!
+    findOneInsurance(idInsurance: ID!): Insurance
 }
 type Mutation{
     createInsurance(insurance: CreateInsuranceInput!): Insurance
@@ -11,19 +13,20 @@ type Mutation{
 type Insurance {
     idInsurance: ID!
     idEmployee: ID!
-    idHRADvisor: ID!
-    insurance_end_date: String!
+    idHRAdvisor: ID!
+    insurance_end_date: Date!
     insuranceDescription: String!
     beneficiary: String!
 }
 input CreateInsuranceInput {
     idEmployee: ID!
-    idHRADvisor: ID!
-    insurance_end_date: String!
+    idHRAdvisor: ID!
+    insurance_end_date: Date!
     insuranceDescription: String!
     beneficiary: String!
 }
 input UpdateInsuranceInput {
+    idHRAdvisor: ID
     insuranceDescription: String
     beneficiary: String
 }

@@ -1,3 +1,5 @@
+//example of schema first approach
+
 export interface IInsurance {
   idInsurance: number;
   insuranceDescription: string;

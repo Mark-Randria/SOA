@@ -10,19 +10,19 @@ import { UpdateHRAdvisorDTO } from './dto/update-hr-advisor.dto';
 import { UpdateEmployeeDTO } from './dto/update-employee.dto';
 import { CreateEmployeeDTO } from './dto/create-employee.dto';
 
-@Resolver('User')
+@Resolver()
 export class UsersResolver {
   constructor(
     private usersService: UsersService,
     private hrService: HRAdvisorService,
     private employeeService: EmployeeService,
   ) {}
-  @Query(() => [IUser])
+  @Query()
   async allUsers(): Promise<IUser[]> {
     return this.usersService.findAll();
   }
 
-  @Query(() => IUser)
+  @Query()
   async findUser(
     @Args('immatriculation') immatriculation: number,
   ): Promise<IUser> {

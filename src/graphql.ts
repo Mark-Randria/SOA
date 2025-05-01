@@ -8,6 +8,20 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export interface CreateInsuranceInput {
+    idEmployee: string;
+    idHRAdvisor: string;
+    insurance_end_date: Date;
+    insuranceDescription: string;
+    beneficiary: string;
+}
+
+export interface UpdateInsuranceInput {
+    idHRAdvisor?: Nullable<string>;
+    insuranceDescription?: Nullable<string>;
+    beneficiary?: Nullable<string>;
+}
+
 export interface NotificationInput {
     idReceiver: string;
     idSender: string;
@@ -66,6 +80,8 @@ export interface User {
 }
 
 export interface IQuery {
+    allInsurances(): Nullable<Nullable<Insurance>[]> | Promise<Nullable<Nullable<Insurance>[]>>;
+    findOneInsurance(idInsurance: string): Nullable<Insurance> | Promise<Nullable<Insurance>>;
     allNotifications(): Nullable<Nullable<Notification>[]> | Promise<Nullable<Nullable<Notification>[]>>;
     findOneNotification(id: string): Notification | Promise<Notification>;
     findNotifications(idReceiver?: Nullable<string>, idSender?: Nullable<string>): Nullable<Nullable<Notification>[]> | Promise<Nullable<Nullable<Notification>[]>>;
@@ -76,6 +92,9 @@ export interface IQuery {
 }
 
 export interface IMutation {
+    createInsurance(insurance: CreateInsuranceInput): Nullable<Insurance> | Promise<Nullable<Insurance>>;
+    updateInsurance(idInsurance: string, insurance?: Nullable<UpdateInsuranceInput>): Nullable<Insurance> | Promise<Nullable<Insurance>>;
+    deleteInsurance(idInsurance: string): DeletedInsuranceResponse | Promise<DeletedInsuranceResponse>;
     createNotification(notification: NotificationInput): Nullable<Notification> | Promise<Nullable<Notification>>;
     testMutation(message: string): Nullable<string> | Promise<Nullable<string>>;
     createHRAdvisor(hr: CreateHRAdvisorInput): Nullable<HRAdvisor> | Promise<Nullable<HRAdvisor>>;
@@ -83,6 +102,20 @@ export interface IMutation {
     updateHRAdvisor(immatriculation: string, hr?: Nullable<UpdateHRAdvisorInput>): Nullable<HRAdvisor> | Promise<Nullable<HRAdvisor>>;
     updateEmployee(immatriculation: string, employee?: Nullable<UpdateEmployeeInput>): Nullable<Employee> | Promise<Nullable<Employee>>;
     deleteUser(immatriculation: string): Nullable<DeletedUserResponse> | Promise<Nullable<DeletedUserResponse>>;
+}
+
+export interface Insurance {
+    idInsurance: string;
+    idEmployee: string;
+    idHRAdvisor: string;
+    insurance_end_date: Date;
+    insuranceDescription: string;
+    beneficiary: string;
+}
+
+export interface DeletedInsuranceResponse {
+    success: boolean;
+    message?: Nullable<string>;
 }
 
 export interface Notification {

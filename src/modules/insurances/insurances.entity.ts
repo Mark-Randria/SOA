@@ -7,12 +7,16 @@ export class InsuranceEntity implements IInsurance {
 
   @Column()
   insuranceDescription: string;
+
   @Column()
   beneficiary: string;
-  @Column()
+
+  @Column({ type: 'date' })
   insurance_end_date: Date;
+
   @Column()
   idEmployee: number;
+
   @Column()
   idHRAdvisor: number;
 }

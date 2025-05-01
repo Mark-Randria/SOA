@@ -8,12 +8,12 @@ export class InsurancesResolver {
 
   @Query()
   async allInsurances(): Promise<IInsurance[]> {
-    return this.insuranceService.findAll();
+    return await this.insuranceService.findAll();
   }
 
   @Query()
-  async findOneInsurance(@Args('id') id) {
-    return this.insuranceService.findOne(+id);
+  async findOneInsurance(@Args('idInsurance') id) {
+    return await this.insuranceService.findOne(+id);
   }
 
   @Mutation()
@@ -21,5 +21,18 @@ export class InsurancesResolver {
     @Args('insurance') insurance: any,
   ): Promise<IInsurance> {
     return await this.insuranceService.create(insurance);
+  }
+
+  @Mutation()
+  async updateInsurance(
+    @Args('idInsurance') id,
+    @Args('insurance') insurance: any,
+  ) {
+    return await this.insuranceService.update(+id, insurance);
+  }
+
+  @Mutation()
+  async deleteInsurance(@Args('idInsurance') id) {
+    return await this.insuranceService.delete(+id);
   }
 }

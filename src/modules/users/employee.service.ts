@@ -15,7 +15,7 @@ export class EmployeeService extends UsersService {
     @Inject('USER_SERVICE') dataSource: DataSource,
     @Inject('RABBITMQ_USER_SERVICE') rabbitClient: ClientProxy,
   ) {
-    super(dataSource, rabbitClient);
+    super(dataSource, rabbitClient, null);
     this.employeeRepository = this.dataSource.getRepository(EmployeeEntity);
   }
 

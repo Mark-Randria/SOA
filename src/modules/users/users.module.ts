@@ -6,6 +6,7 @@ import { HRAdvisorService } from './hr-advisor.service';
 import { EmployeeService } from './employee.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { InsurancesService } from '../insurances/insurances.service';
 @Module({
   imports: [
     DatabaseModule,
@@ -18,7 +19,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
           transport: Transport.RMQ,
           options: {
             urls: [configService.get<string>('RABBITMQ_URL')],
-            queue: configService.get<string>('RABBITMQ_USER_QUEUE'),
+            queue: configService.get<string>('RABBITMQ_MAIN_QUEUE'),
             queueOptions: {
               durable: false,
             },
@@ -27,7 +28,13 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       },
     ]),
   ],
-  providers: [UsersService, UsersResolver, HRAdvisorService, EmployeeService],
+  providers: [
+    UsersService,
+    UsersResolver,
+    HRAdvisorService,
+    EmployeeService,
+    InsurancesService,
+  ],
   exports: [UsersService, HRAdvisorService, EmployeeService],
 })
 export class UsersModule {}
