@@ -1,5 +1,6 @@
 type Query {
   allUsers: [User]
+  findUser(immatriculation: ID!): User
   allHRAdvisors: [HRAdvisor]
   allEmployees: [Employee]
 }
@@ -19,7 +20,7 @@ type Mutation {
   deleteUser(immatriculation: ID!): deletedUserResponse
 }
 
-interface deletedUserResponse {
+type deletedUserResponse {
   success: Boolean!
   message: String
 }

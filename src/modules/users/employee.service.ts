@@ -40,8 +40,13 @@ export class EmployeeService extends UsersService {
       where: { immatriculation: id },
     });
 
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new Error('User doesnt exist');
+    }
+
     if (!employeeToUpdate) {
-      throw new Error('Employee not found');
+      throw new Error('this immatriculation doesnt belong to an Employee');
     }
 
     await this.employeeRepository.update(id, employee);

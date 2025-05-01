@@ -22,6 +22,13 @@ export class UsersResolver {
     return this.usersService.findAll();
   }
 
+  @Query(() => IUser)
+  async findUser(
+    @Args('immatriculation') immatriculation: number,
+  ): Promise<IUser> {
+    return await this.usersService.findOne(+immatriculation);
+  }
+
   @Query()
   async allHRAdvisors(): Promise<IHRAdvisor[]> {
     return this.hrService.findAllHRAdvisors();

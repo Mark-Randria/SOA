@@ -56,11 +56,6 @@ export interface UpdateEmployeeInput {
     contractType?: Nullable<string>;
 }
 
-export interface DeletedUserResponse {
-    success: boolean;
-    message?: Nullable<string>;
-}
-
 export interface User {
     immatriculation: string;
     email?: Nullable<string>;
@@ -75,6 +70,7 @@ export interface IQuery {
     findOneNotification(id: string): Notification | Promise<Notification>;
     findNotifications(idReceiver?: Nullable<string>, idSender?: Nullable<string>): Nullable<Nullable<Notification>[]> | Promise<Nullable<Nullable<Notification>[]>>;
     allUsers(): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
+    findUser(immatriculation: string): Nullable<User> | Promise<Nullable<User>>;
     allHRAdvisors(): Nullable<Nullable<HRAdvisor>[]> | Promise<Nullable<Nullable<HRAdvisor>[]>>;
     allEmployees(): Nullable<Nullable<Employee>[]> | Promise<Nullable<Nullable<Employee>[]>>;
 }
@@ -96,6 +92,11 @@ export interface Notification {
     notifTitle: string;
     message: string;
     sendDate: string;
+}
+
+export interface DeletedUserResponse {
+    success: boolean;
+    message?: Nullable<string>;
 }
 
 export interface HRAdvisor extends User {

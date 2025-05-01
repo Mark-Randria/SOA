@@ -20,6 +20,12 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
+  async findOne(id: number): Promise<IUser> {
+    return await this.userRepository.findOne({
+      where: { immatriculation: id },
+    });
+  }
+
   async testMutation(message: string): Promise<any> {
     console.log(message);
     this.rabbitClient.emit('user_queue', message);

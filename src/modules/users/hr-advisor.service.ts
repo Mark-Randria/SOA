@@ -39,8 +39,13 @@ export class HRAdvisorService extends UsersService {
       where: { immatriculation: id },
     });
 
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new Error('User doesnt exist');
+    }
+
     if (!hrToUpdate) {
-      throw new Error('HR Advisor not found');
+      throw new Error('this immatriculation doesnt belong to an HR Advisor');
     }
 
     await this.hrRepository.update(id, hr);
