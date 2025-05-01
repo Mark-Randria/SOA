@@ -2,6 +2,7 @@ export interface IInsurance {
   idInsurance: number;
   insuranceDescription: string;
   beneficiary: string;
-  insurance_end_date: string;
-  idUser: number;
+  insurance_end_date: Date;
+  idEmployee: number;
+  idHRAdvisor: number;
 }
