@@ -10,7 +10,8 @@ import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { userResolvers } from './modules/users/users.resolver.types';
 import { DateScalar } from './scalar/date-scalar';
-import { InsuranceListeners } from './modules/insurances/insurances.listeners';
+import { MailerModule } from './mailer/mailer.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,6 +29,7 @@ import { InsuranceListeners } from './modules/insurances/insurances.listeners';
     UsersModule,
     InsurancesModule,
     NotificationsModule,
+    MailerModule,
   ],
   controllers: [AppController],
   providers: [AppService, DateScalar],

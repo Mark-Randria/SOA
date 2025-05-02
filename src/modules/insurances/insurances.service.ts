@@ -54,8 +54,8 @@ export class InsurancesService {
       throw new Error('This employee already has an insurance.');
     }
 
-    const user = await this.usersService.findOne(insurance.idEmployee);
-    if (!user) {
+    const Employee = await this.usersService.findOne(insurance.idEmployee);
+    if (!Employee) {
       throw new Error('Employee does not exist');
     }
 
@@ -68,6 +68,7 @@ export class InsurancesService {
       notifTitle: 'New Insurance Assigned',
       message: `You have been assigned a new insurance.`,
       sendDate: new Date(),
+      emailEmployee: Employee.email,
     });
 
     return savedInsurance;
@@ -86,12 +87,22 @@ export class InsurancesService {
       where: { idInsurance },
     });
 
+    const Employee = await this.usersService.findOne(
+      insuranceToUpdate.idEmployee,
+    );
+
+    const HRAdvisor = await this.usersService.findOne(
+      insuranceToUpdate.idHRAdvisor,
+    );
+
     this.rabbitClient.emit('insurance-updated', {
       idReceiver: insuranceToUpdate.idEmployee,
       idSender: updatedInsurance.idHRAdvisor,
       notifTitle: 'Insurance Updated',
       message: 'Your insurance information has been updated.',
       sendDate: new Date(),
+      emailEmployee: Employee.email,
+      emailHR: HRAdvisor.email,
     });
 
     return updatedInsurance;
