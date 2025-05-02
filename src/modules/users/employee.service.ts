@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { DataSource, Repository } from 'typeorm';
 import { EmployeeEntity } from './employee.entity';
@@ -8,14 +8,16 @@ import { CreateEmployeeDTO } from './dto/create-employee.dto';
 import { UpdateEmployeeDTO } from './dto/update-employee.dto';
 
 @Injectable()
-export class EmployeeService extends UsersService {
+export class EmployeeService {
   private readonly employeeRepository: Repository<EmployeeEntity>;
 
   constructor(
-    @Inject('USER_SERVICE') dataSource: DataSource,
-    @Inject('RABBITMQ_USER_SERVICE') rabbitClient: ClientProxy,
+    @Inject(forwardRef(() => UsersService))
+    private readonly usersService: UsersService,
+    @Inject('USER_SERVICE')
+    private dataSource: DataSource,
+    @Inject('RABBITMQ_USER_SERVICE') private rabbitClient: ClientProxy,
   ) {
-    super(dataSource, rabbitClient, null);
     this.employeeRepository = this.dataSource.getRepository(EmployeeEntity);
   }
 
@@ -40,7 +42,7 @@ export class EmployeeService extends UsersService {
       where: { immatriculation: id },
     });
 
-    const user = await this.findOne(id);
+    const user = await this.usersService.findOne(id);
     if (!user) {
       throw new Error('User doesnt exist');
     }

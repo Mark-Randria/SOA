@@ -18,7 +18,10 @@ export class NotificationsListeners {
       channel.ack(msg);
       console.log('Notification sent successfully');
     } catch (err) {
-      console.error('Failed to send notification', err);
+      console.error(
+        'Failed to store notification about insurance creation',
+        err,
+      );
       channel.nack(msg, false, true);
     }
   }
@@ -33,9 +36,9 @@ export class NotificationsListeners {
     try {
       await this.notificationsService.create(data);
       channel.ack(msg);
-      console.log('Notification updated successfully');
+      console.log('Notification about update stored successfully');
     } catch (err) {
-      console.error('Failed to update notification', err);
+      console.error('Failed to store notification about update', err);
       channel.nack(msg, false, true);
     }
   }

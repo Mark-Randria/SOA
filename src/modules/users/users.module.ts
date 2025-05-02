@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { DatabaseModule } from 'src/database/database.module';
 import { UsersResolver } from './users.resolver';
@@ -12,7 +12,7 @@ import { RabbitMQModule } from 'src/rabbitmq/rabbitmq.module';
   imports: [
     DatabaseModule,
     NotificationsModule,
-    InsurancesModule,
+    forwardRef(() => InsurancesModule),
     RabbitMQModule,
   ],
   providers: [

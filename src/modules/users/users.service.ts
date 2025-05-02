@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { IDeletedUserResponse, IUser } from './interfaces/user.interface';
@@ -15,6 +15,7 @@ export class UsersService {
   constructor(
     @Inject('USER_SERVICE') protected dataSource: DataSource,
     @Inject('RABBITMQ_USER_SERVICE') private rabbitClient: ClientProxy,
+    @Inject(forwardRef(() => InsurancesService))
     private insuranceService: InsurancesService,
   ) {
     this.userRepository = this.dataSource.getRepository(UserEntity);

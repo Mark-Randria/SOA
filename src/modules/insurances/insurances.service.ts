@@ -1,8 +1,9 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { InsuranceEntity } from './insurances.entity';
 import { NotificationsService } from '../notifications/notifications.service';
 import { ClientProxy } from '@nestjs/microservices';
+import { EmployeeService } from '../users/employee.service';
 
 @Injectable()
 export class InsurancesService {
@@ -10,9 +11,10 @@ export class InsurancesService {
   private readonly insuranceRepository: Repository<InsuranceEntity>;
 
   constructor(
+    @Inject(forwardRef(() => EmployeeService))
+    private employeeService: EmployeeService,
     @Inject('INSURANCE_SERVICE') dataSource: DataSource,
     @Inject('RABBITMQ_INSURANCE_SERVICE') private rabbitClient: ClientProxy,
-    private notificationService: NotificationsService,
   ) {
     this.dataSource = dataSource;
     this.insuranceRepository = this.dataSource.getRepository(InsuranceEntity);
