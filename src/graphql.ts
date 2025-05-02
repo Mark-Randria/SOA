@@ -27,7 +27,7 @@ export interface NotificationInput {
     idSender: string;
     notifTitle: string;
     message: string;
-    sendDate: string;
+    sendDate: Date;
 }
 
 export interface CreateHRAdvisorInput {
@@ -124,7 +124,7 @@ export interface Notification {
     idSender: string;
     notifTitle: string;
     message: string;
-    sendDate: string;
+    sendDate: Date;
 }
 
 export interface DeletedUserResponse {

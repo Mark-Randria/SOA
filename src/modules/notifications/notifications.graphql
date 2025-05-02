@@ -1,3 +1,5 @@
+scalar Date
+
 type Query {
   allNotifications: [Notification]
   findOneNotification(id: ID!): Notification!
@@ -14,7 +16,7 @@ type Notification {
   idSender: ID!
   notifTitle: String!
   message: String!
-  sendDate: String!
+  sendDate: Date!
 }
 
 input NotificationInput {
@@ -22,5 +24,5 @@ input NotificationInput {
   idSender: ID!
   notifTitle: String!
   message: String!
-  sendDate: String!
+  sendDate: Date!
 }

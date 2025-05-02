@@ -3,9 +3,11 @@ import { InsurancesService } from './insurances.service';
 import { DatabaseModule } from 'src/database/database.module';
 import { InsurancesResolver } from './insurances.resolver';
 import { InsuranceListeners } from './insurances.listeners';
+import { NotificationsModule } from '../notifications/notifications.module';
+import { RabbitMQModule } from 'src/rabbitmq/rabbitmq.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, NotificationsModule, RabbitMQModule],
   controllers: [InsuranceListeners],
   providers: [InsurancesService, InsurancesResolver],
   exports: [InsurancesService, InsurancesResolver],

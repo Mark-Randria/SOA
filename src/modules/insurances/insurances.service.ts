@@ -1,12 +1,19 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { InsuranceEntity } from './insurances.entity';
+import { NotificationsService } from '../notifications/notifications.service';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class InsurancesService {
   protected dataSource: DataSource;
   private readonly insuranceRepository: Repository<InsuranceEntity>;
-  constructor(@Inject('INSURANCE_SERVICE') dataSource: DataSource) {
+
+  constructor(
+    @Inject('INSURANCE_SERVICE') dataSource: DataSource,
+    @Inject('RABBITMQ_INSURANCE_SERVICE') private rabbitClient: ClientProxy,
+    private notificationService: NotificationsService,
+  ) {
     this.dataSource = dataSource;
     this.insuranceRepository = this.dataSource.getRepository(InsuranceEntity);
   }
@@ -47,7 +54,17 @@ export class InsurancesService {
     }
 
     const newInsurance = this.insuranceRepository.create(insurance);
-    return await this.insuranceRepository.save(newInsurance);
+    const savedInsurance = await this.insuranceRepository.save(newInsurance);
+
+    this.rabbitClient.emit('insurance-created', {
+      idReceiver: insurance.idEmployee,
+      idSender: insurance.idHRAdvisor,
+      notifTitle: 'New Insurance Assigned',
+      message: `You have been assigned a new insurance.`,
+      sendDate: new Date(),
+    });
+
+    return savedInsurance;
   }
   async update(idInsurance: number, insurance: InsuranceEntity) {
     const insuranceToUpdate = await this.insuranceRepository.findOne({
@@ -59,9 +76,19 @@ export class InsurancesService {
     }
 
     await this.insuranceRepository.update(idInsurance, insurance);
-    return await this.insuranceRepository.findOne({
+    const updatedInsurance = await this.insuranceRepository.findOne({
       where: { idInsurance },
     });
+
+    this.rabbitClient.emit('insurance-updated', {
+      idReceiver: insuranceToUpdate.idEmployee,
+      idSender: updatedInsurance.idHRAdvisor,
+      notifTitle: 'Insurance Updated',
+      message: 'Your insurance information has been updated.',
+      sendDate: new Date(),
+    });
+
+    return updatedInsurance;
   }
 
   async delete(idInsurance: number) {
