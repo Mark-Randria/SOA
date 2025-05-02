@@ -45,7 +45,7 @@ export class InsurancesService {
     return insurance ?? null;
   }
 
-  async create(insurance: InsuranceEntity): Promise<InsuranceEntity> {
+  async create(insurance: any): Promise<InsuranceEntity> {
     const existingInsurance = await this.insuranceRepository.findOne({
       where: { idEmployee: insurance.idEmployee },
     });
@@ -59,16 +59,30 @@ export class InsurancesService {
       throw new Error('Employee does not exist');
     }
 
-    const newInsurance = this.insuranceRepository.create(insurance);
-    const savedInsurance = await this.insuranceRepository.save(newInsurance);
+    const newInsurance = await this.insuranceRepository.save({
+      ...insurance,
+      company: { companyID: insurance.companyID },
+    });
+
+    const savedInsurance = await this.insuranceRepository.findOne({
+      where: { idInsurance: newInsurance.idInsurance },
+      relations: { company: true },
+    });
+
+    console.log('savedInsurance', savedInsurance);
+
+    const companyEmail = savedInsurance?.company?.companyEmail ?? null;
 
     this.rabbitClient.emit('insurance-created', {
       idReceiver: insurance.idEmployee,
       idSender: insurance.idHRAdvisor,
       notifTitle: 'New Insurance Assigned',
-      message: `You have been assigned a new insurance.`,
+      message: `Dear ${Employee.firstname} ${Employee.lastname}, you have been assigned a new insurance.`,
       sendDate: new Date(),
       emailEmployee: Employee.email,
+      firstname: Employee.firstname,
+      lastname: Employee.lastname,
+      companyEmail: companyEmail,
     });
 
     return savedInsurance;
@@ -83,9 +97,12 @@ export class InsurancesService {
     }
 
     await this.insuranceRepository.update(idInsurance, insurance);
+
     const updatedInsurance = await this.insuranceRepository.findOne({
       where: { idInsurance },
     });
+
+    const companyEmail = updatedInsurance?.company?.companyEmail ?? null;
 
     const Employee = await this.usersService.findOne(
       insuranceToUpdate.idEmployee,
@@ -99,10 +116,15 @@ export class InsurancesService {
       idReceiver: insuranceToUpdate.idEmployee,
       idSender: updatedInsurance.idHRAdvisor,
       notifTitle: 'Insurance Updated',
-      message: 'Your insurance information has been updated.',
+      message: `Dear ${Employee.firstname} ${Employee.lastname}, your insurance information has been updated.`,
       sendDate: new Date(),
       emailEmployee: Employee.email,
+      firstname: Employee.firstname,
+      lastname: Employee.lastname,
       emailHR: HRAdvisor.email,
+      firstnameHR: HRAdvisor.firstname,
+      lastnameHR: HRAdvisor.lastname,
+      companyEmail: companyEmail,
     });
 
     return updatedInsurance;
