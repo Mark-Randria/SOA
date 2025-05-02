@@ -1,9 +1,8 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { InsuranceEntity } from './insurances.entity';
-import { NotificationsService } from '../notifications/notifications.service';
 import { ClientProxy } from '@nestjs/microservices';
-import { EmployeeService } from '../users/employee.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class InsurancesService {
@@ -11,8 +10,8 @@ export class InsurancesService {
   private readonly insuranceRepository: Repository<InsuranceEntity>;
 
   constructor(
-    @Inject(forwardRef(() => EmployeeService))
-    private employeeService: EmployeeService,
+    @Inject(forwardRef(() => UsersService))
+    private usersService: UsersService,
     @Inject('INSURANCE_SERVICE') dataSource: DataSource,
     @Inject('RABBITMQ_INSURANCE_SERVICE') private rabbitClient: ClientProxy,
   ) {
@@ -53,6 +52,11 @@ export class InsurancesService {
 
     if (existingInsurance) {
       throw new Error('This employee already has an insurance.');
+    }
+
+    const user = await this.usersService.findOne(insurance.idEmployee);
+    if (!user) {
+      throw new Error('Employee does not exist');
     }
 
     const newInsurance = this.insuranceRepository.create(insurance);
