@@ -1,34 +1,72 @@
 scalar Date
 
-type Query{
-    allInsurances: [Insurance]
-    findOneInsurance(idInsurance: ID!): Insurance
+type Query {
+  allInsurances: [Insurance]
+  findOneInsurance(idInsurance: ID!): Insurance
 }
-type Mutation{
-    createInsurance(insurance: CreateInsuranceInput!): Insurance
-    updateInsurance(idInsurance: ID!, insurance: UpdateInsuranceInput): Insurance
-    deleteInsurance(idInsurance: ID!): DeletedInsuranceResponse!
+type Mutation {
+  createInsurance(insurance: CreateInsuranceInput!): Insurance
+  updateInsurance(idInsurance: ID!, insurance: UpdateInsuranceInput): Insurance
+  deleteInsurance(idInsurance: ID!): DeletedInsuranceResponse!
 }
 
-type Insurance {
-    idInsurance: ID!
-    idEmployee: ID!
-    idHRAdvisor: ID!
-    insurance_end_date: Date!
-    insuranceDescription: String!
-    beneficiary: String!
+extend type Query {
+  allInsuranceCompanies: [InsuranceCompany]
+  findOneInsuranceCompany(companyID: ID!): InsuranceCompany
 }
+
+extend type Mutation {
+  createInsuranceCompany(company: CreateInsuranceCompanyInput!): InsuranceCompany
+  updateInsuranceCompany(companyID: ID!, company: UpdateInsuranceCompanyInput!): InsuranceCompany
+  deleteInsuranceCompany(companyID: ID!): DeletedInsuranceResponse!
+}
+
+input CreateInsuranceCompanyInput {
+  companyName: String!
+  companyAddress: String!
+  companyPhone: String!
+  companyEmail: String!
+}
+
+input UpdateInsuranceCompanyInput {
+  companyName: String
+  companyAddress: String
+  companyPhone: String
+  companyEmail: String
+}
+
+
+type Insurance {
+  idInsurance: ID!
+  idEmployee: ID!
+  idHRAdvisor: ID!
+  insurance_end_date: Date!
+  insuranceDescription: String!
+  beneficiary: String!
+  company: InsuranceCompany
+}
+
+type InsuranceCompany {
+  companyID: ID!
+  companyName: String!
+  companyAddress: String!
+  companyPhone: String!
+  companyEmail: String!
+}
+
 input CreateInsuranceInput {
-    idEmployee: ID!
-    idHRAdvisor: ID!
-    insurance_end_date: Date!
-    insuranceDescription: String!
-    beneficiary: String!
+  idEmployee: ID!
+  idHRAdvisor: ID!
+  insurance_end_date: Date!
+  insuranceDescription: String!
+  beneficiary: String!
+  companyID: ID
 }
 input UpdateInsuranceInput {
-    idHRAdvisor: ID
-    insuranceDescription: String
-    beneficiary: String
+  idHRAdvisor: ID
+  insuranceDescription: String
+  beneficiary: String
+  companyID: ID
 }
 type DeletedInsuranceResponse {
   success: Boolean!

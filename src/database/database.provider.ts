@@ -1,4 +1,5 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { InsuranceCompanyEntity } from 'src/modules/insurances/insurance-company.entity';
 import { InsuranceEntity } from 'src/modules/insurances/insurances.entity';
 import { NotificationEntity } from 'src/modules/notifications/notification.entity';
 import { EmployeeEntity } from 'src/modules/users/employee.entity';
@@ -39,7 +40,7 @@ export const databaseProviders = [
         username: configService.get<string>('DB_USERNAME_INSURANCE'),
         password: configService.get<string>('DB_PASSWORD_INSURANCE'),
         database: configService.get<string>('DB_NAME_INSURANCE'),
-        entities: [InsuranceEntity],
+        entities: [InsuranceEntity, InsuranceCompanyEntity],
         synchronize: configService.get<boolean>('DB_SYNCHRONIZE_INSURANCE'),
       });
       return dataSource.initialize();

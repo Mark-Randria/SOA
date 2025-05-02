@@ -8,18 +8,34 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export interface CreateInsuranceCompanyInput {
+    companyName: string;
+    companyAddress: string;
+    companyPhone: string;
+    companyEmail: string;
+}
+
+export interface UpdateInsuranceCompanyInput {
+    companyName?: Nullable<string>;
+    companyAddress?: Nullable<string>;
+    companyPhone?: Nullable<string>;
+    companyEmail?: Nullable<string>;
+}
+
 export interface CreateInsuranceInput {
     idEmployee: string;
     idHRAdvisor: string;
     insurance_end_date: Date;
     insuranceDescription: string;
     beneficiary: string;
+    companyID?: Nullable<string>;
 }
 
 export interface UpdateInsuranceInput {
     idHRAdvisor?: Nullable<string>;
     insuranceDescription?: Nullable<string>;
     beneficiary?: Nullable<string>;
+    companyID?: Nullable<string>;
 }
 
 export interface NotificationInput {
@@ -82,6 +98,8 @@ export interface User {
 export interface IQuery {
     allInsurances(): Nullable<Nullable<Insurance>[]> | Promise<Nullable<Nullable<Insurance>[]>>;
     findOneInsurance(idInsurance: string): Nullable<Insurance> | Promise<Nullable<Insurance>>;
+    allInsuranceCompanies(): Nullable<Nullable<InsuranceCompany>[]> | Promise<Nullable<Nullable<InsuranceCompany>[]>>;
+    findOneInsuranceCompany(companyID: string): Nullable<InsuranceCompany> | Promise<Nullable<InsuranceCompany>>;
     allNotifications(): Nullable<Nullable<Notification>[]> | Promise<Nullable<Nullable<Notification>[]>>;
     findOneNotification(id: string): Notification | Promise<Notification>;
     findNotifications(idReceiver?: Nullable<string>, idSender?: Nullable<string>): Nullable<Nullable<Notification>[]> | Promise<Nullable<Nullable<Notification>[]>>;
@@ -95,6 +113,9 @@ export interface IMutation {
     createInsurance(insurance: CreateInsuranceInput): Nullable<Insurance> | Promise<Nullable<Insurance>>;
     updateInsurance(idInsurance: string, insurance?: Nullable<UpdateInsuranceInput>): Nullable<Insurance> | Promise<Nullable<Insurance>>;
     deleteInsurance(idInsurance: string): DeletedInsuranceResponse | Promise<DeletedInsuranceResponse>;
+    createInsuranceCompany(company: CreateInsuranceCompanyInput): Nullable<InsuranceCompany> | Promise<Nullable<InsuranceCompany>>;
+    updateInsuranceCompany(companyID: string, company: UpdateInsuranceCompanyInput): Nullable<InsuranceCompany> | Promise<Nullable<InsuranceCompany>>;
+    deleteInsuranceCompany(companyID: string): DeletedInsuranceResponse | Promise<DeletedInsuranceResponse>;
     createNotification(notification: NotificationInput): Nullable<Notification> | Promise<Nullable<Notification>>;
     testMutation(message: string): Nullable<string> | Promise<Nullable<string>>;
     createHRAdvisor(hr: CreateHRAdvisorInput): Nullable<HRAdvisor> | Promise<Nullable<HRAdvisor>>;
@@ -111,6 +132,15 @@ export interface Insurance {
     insurance_end_date: Date;
     insuranceDescription: string;
     beneficiary: string;
+    company?: Nullable<InsuranceCompany>;
+}
+
+export interface InsuranceCompany {
+    companyID: string;
+    companyName: string;
+    companyAddress: string;
+    companyPhone: string;
+    companyEmail: string;
 }
 
 export interface DeletedInsuranceResponse {
