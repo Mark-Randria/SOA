@@ -1,4 +1,5 @@
-// user.interface.ts
+//example of code first approach
+
 import { InterfaceType, Field, ID } from '@nestjs/graphql';
 
 @InterfaceType()

@@ -1,5 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { IInsurance } from './interfaces/insurances.interface';
+import { InsuranceCompanyEntity } from './insurance-company.entity';
 @Entity()
 export class InsuranceEntity implements IInsurance {
   @PrimaryGeneratedColumn()
@@ -7,12 +14,24 @@ export class InsuranceEntity implements IInsurance {
 
   @Column()
   insuranceDescription: string;
+
   @Column()
   beneficiary: string;
-  @Column()
+
+  @Column({ type: 'date' })
   insurance_end_date: Date;
+
   @Column()
   idEmployee: number;
+
   @Column()
   idHRAdvisor: number;
+
+  @ManyToOne(() => InsuranceCompanyEntity, (company) => company.insurances, {
+    eager: true,
+    cascade: false,
+    nullable: true,
+  })
+  @JoinColumn({ name: 'companyID' }) // optional, but makes the column name explicit
+  company: InsuranceCompanyEntity;
 }

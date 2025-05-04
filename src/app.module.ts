@@ -9,6 +9,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { userResolvers } from './modules/users/users.resolver.types';
+import { DateScalar } from './scalar/date-scalar';
+import { MailerModule } from './mailer/mailer.module';
 
 @Module({
   imports: [
@@ -27,8 +29,9 @@ import { userResolvers } from './modules/users/users.resolver.types';
     UsersModule,
     InsurancesModule,
     NotificationsModule,
+    MailerModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DateScalar],
 })
 export class AppModule {}

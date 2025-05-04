@@ -2,6 +2,7 @@
 /dist
 /node_modules
 /build
+/src/graphql.ts
 
 # Logs
 logs
@@ -36,11 +37,13 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # dotenv environment variable files
-.env.*
+.env.insuranceservice
+.env.notificationservice
+.env.userservice
 .env
 .env.development.local
 .env.test.local
-.env.production.local
+.env.production
 .env.local
 docker-compose.yml
 

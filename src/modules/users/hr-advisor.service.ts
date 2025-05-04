@@ -8,14 +8,14 @@ import { CreateHRAdvisorDTO } from './dto/create-hr-advisor.dto';
 import { UpdateHRAdvisorDTO } from './dto/update-hr-advisor.dto';
 
 @Injectable()
-export class HRAdvisorService extends UsersService {
+export class HRAdvisorService {
   private readonly hrRepository: Repository<HRAdvisorEntity>;
 
   constructor(
-    @Inject('USER_SERVICE') dataSource: DataSource,
-    @Inject('RABBITMQ_USER_SERVICE') rabbitClient: ClientProxy,
+    private readonly usersService: UsersService,
+    @Inject('USER_SERVICE') private dataSource: DataSource,
+    @Inject('RABBITMQ_USER_SERVICE') private rabbitClient: ClientProxy,
   ) {
-    super(dataSource, rabbitClient);
     this.hrRepository = this.dataSource.getRepository(HRAdvisorEntity);
   }
 
@@ -39,8 +39,13 @@ export class HRAdvisorService extends UsersService {
       where: { immatriculation: id },
     });
 
+    const user = await this.usersService.findOne(id);
+    if (!user) {
+      throw new Error('User doesnt exist');
+    }
+
     if (!hrToUpdate) {
-      throw new Error('HR Advisor not found');
+      throw new Error('this immatriculation doesnt belong to an HR Advisor');
     }
 
     await this.hrRepository.update(id, hr);
